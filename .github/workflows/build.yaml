@@ -17,7 +17,7 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          ${{ vars.DOCKERHUB_USERNAME }}/jenkins
+          ${{ vars.DOCKERHUB_USERNAME }}/jenkins-generic-agent
         tags: |
           type=semver,pattern=${{ env.JENKINS_INBOUND_AGENT_VERSION }}-{{version}}
 
