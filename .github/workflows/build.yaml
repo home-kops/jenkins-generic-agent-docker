@@ -2,11 +2,25 @@ name: Build docker image
 
 on:
   push:
+    tags:
+    - "v*.*.*"
+
+env:
+  JENKINS_INBOUND_AGENT_VERSION: 'bookworm-jdk21'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+          ${{ vars.DOCKERHUB_USERNAME }}/jenkins
+        tags: |
+          type=semver,pattern=${{ env.JENKINS_INBOUND_AGENT_VERSION }}-{{version}}
+
     - name: Checkout repository
       uses: actions/checkout@v3
 
@@ -25,6 +39,8 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v6
       with:
+        platforms: linux/amd64
         context: .
         push: true
-        tags: ${{ vars.DOCKERHUB_USERNAME }}/jenkins-generic-agent:latest
+        tags: ${{ steps.meta.outputs.tags }}
+        build-args: JENKINS_INBOUND_AGENT_VERSION=${{ env.JENKINS_INBOUND_AGENT_VERSION }}
