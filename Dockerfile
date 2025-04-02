@@ -40,3 +40,6 @@ RUN apt install -y gettext
 
 # Install jq
 RUN apt install -y jq
+
+# Install helm
+RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
