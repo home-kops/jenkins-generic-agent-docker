@@ -39,7 +39,7 @@ RUN install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 RUN apt install -y gettext
 
 # Install sponge
-RUN apt install -y sponge
+RUN apt install -y moreutils
 
 # Install jq
 RUN apt install -y jq
