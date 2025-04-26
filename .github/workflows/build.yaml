@@ -22,6 +22,7 @@ jobs:
     - name: Publish to Docker Hub
       uses: home-kops/actions/.github/actions/publish-docker-image@main
       with:
+        image_name: jenkins-generic-agent
         dockerhub_username: ${{ vars.DOCKERHUB_USERNAME }}
         dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
         github_token: ${{ secrets.GITHUB_TOKEN }}
