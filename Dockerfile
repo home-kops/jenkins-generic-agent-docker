@@ -1,6 +1,4 @@
-ARG JENKINS_INBOUND_AGENT_VERSION='bookworm-jdk21'
-
-FROM jenkins/inbound-agent:${JENKINS_INBOUND_AGENT_VERSION}
+FROM jenkins/inbound-agent:bookworm-jdk21
 
 USER root
 

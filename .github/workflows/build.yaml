@@ -2,45 +2,26 @@ name: Build docker image
 
 on:
   push:
-    tags:
-    - "v*.*.*"
+    branches:
+    - main
 
-env:
-  JENKINS_INBOUND_AGENT_VERSION: 'bookworm-jdk21'
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: |
-          ${{ vars.DOCKERHUB_USERNAME }}/jenkins-generic-agent
-        tags: |
-          type=semver,pattern={{version}}-${{ env.JENKINS_INBOUND_AGENT_VERSION }}
-
     - name: Checkout repository
       uses: actions/checkout@v3
-
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
       with:
-        username: ${{ vars.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        fetch-depth: 0
+        fetch-tags: true
 
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
-    - name: Build and push
-      uses: docker/build-push-action@v6
+    - name: Publish to Docker Hub
+      uses: home-kops/actions/.github/actions/publish-docker-image@main
       with:
-        platforms: linux/amd64
-        context: .
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        build-args: JENKINS_INBOUND_AGENT_VERSION=${{ env.JENKINS_INBOUND_AGENT_VERSION }}
+        dockerhub_username: ${{ vars.DOCKERHUB_USERNAME }}
+        dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
