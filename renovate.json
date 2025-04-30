@@ -5,7 +5,7 @@
       {
           "depTypeList": ["dependencies"],
           "updateTypes": ["major"],
-        "automerge": false
+          "automerge": false
       }
     ]
   }
