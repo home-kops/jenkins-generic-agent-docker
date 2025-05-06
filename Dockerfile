@@ -1,4 +1,4 @@
-FROM jenkins/inbound-agent:bookworm-jdk21
+FROM jenkins/inbound-agent:3309.v27b_9314fd1a_4-1-jdk21
 
 USER root
 
